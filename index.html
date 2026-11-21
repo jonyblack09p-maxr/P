@@ -1,13 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>P</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P - Creador de videos</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#101114;color:#f5f5f5;
+  font-family:Arial,sans-serif;padding:20px;
+}
+.container{max-width:600px;margin:auto}
+h1{margin-top:10px;font-size:30px}
+p{color:#b8b8c0}
+.panel{
+  background:#1b1c22;border:1px solid #33343c;
+  border-radius:16px;padding:18px;margin-top:18px
+}
+button,.upload{
+  background:#8b5cf6;color:white;border:0;border-radius:12px;
+  padding:14px;font-size:16px;font-weight:bold;width:100%;
+  cursor:pointer
+}
+.upload{
+  display:block;text-align:center;background:#292a32;
+  border:1px dashed #777;padding:24px
+}
+input[type=file]{display:none}
+textarea,select{
+  width:100%;margin-top:10px;background:#292a32;
+  color:white;border:1px solid #444;border-radius:12px;
+  padding:14px;font-size:16px
+}
+textarea{min-height:120px;resize:vertical}
+label{display:block;margin:16px 0 8px;font-weight:bold}
+img{max-width:100%;border-radius:12px;margin-top:15px}
+#status{margin-top:15px;color:#c4b5fd}
+.small{font-size:13px;color:#999}
+</style>
 </head>
-<body style="font-family:sans-serif;padding:16px;background:#111;color:white;">
-  <h1>Aplicación P</h1>
-  <p>Bienvenido a P.</p>
+<body>
+<div class="container">
+  <h1>🎬 Proyecto P</h1>
   <p>Tu espacio para crear videos con inteligencia artificial.</p>
+
+  <div class="panel">
+    <label for="photo">1. Elegí una foto</label>
+    <label class="upload" for="photo">
+      📷 Tocá aquí para cargar una imagen
+    </label>
+    <input type="file" id="photo" accept="image/*">
+    <img id="preview" hidden>
+
+    <label for="prompt">2. Describí el movimiento</label>
+    <textarea id="prompt"
+      placeholder="Escribí qué movimiento querés que haga la persona o el objeto..."></textarea>
+
+    <label for="duration">3. Duración del video</label>
+    <select id="duration">
+      <option value="5">5 segundos</option>
+      <option value="10">10 segundos</option>
+      <option value="15">15 segundos</option>
+    </select>
+
+    <label for="quality">4. Calidad</label>
+    <select id="quality">
+      <option value="Standard">Estándar</option>
+      <option value="HD">Alta definición</option>
+    </select>
+
+    <button id="generate" style="margin-top:20px">
+      Generar video
+    </button>
+    <div id="status"></div>
+  </div>
+
+  <div class="panel">
+    <h3>📽️ Tu creación</h3>
+    <p id="result">Cuando conectemos el motor de IA, el video aparecerá aquí.</p>
+  </div>
+
+  <p class="small">
+    Proyecto P · Prototipo en desarrollo
+  </p>
+</div>
+
+<script>
+const photo=document.getElementById("photo");
+const preview=document.getElementById("preview");
+const status=document.getElementById("status");
+
+photo.addEventListener("change",function(){
+  const file=this.files[0];
+  if(!file)return;
+  preview.src=URL.createObjectURL(file);
+  preview.hidden=false;
+  status.textContent="Foto cargada correctamente.";
+});
+
+document.getElementById("generate").addEventListener("click",function(){
+  const prompt=document.getElementById("prompt").value.trim();
+  if(!photo.files.length){
+    status.textContent="Primero tenés que cargar una foto.";
+    return;
+  }
+  if(!prompt){
+    status.textContent="Escribí una descripción del movimiento.";
+    return;
+  }
+  status.textContent="La interfaz está lista. Falta conectar el motor de IA.";
+});
+</script>
 </body>
 </html>
